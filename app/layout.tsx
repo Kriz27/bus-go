@@ -1,0 +1,68 @@
+import { Analytics } from '@vercel/analytics/next';
+import type { Metadata, Viewport } from 'next';
+import { Montserrat, Noto_Sans, Roboto } from 'next/font/google';
+import { PwaRegister } from '@/components/pwa-register';
+import './globals.css';
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+});
+const notoSans = Noto_Sans({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-noto-sans',
+});
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-roboto-sans',
+});
+
+export const metadata: Metadata = {
+  title: 'BusGo - Bus Tickets',
+  description: 'Plan journeys and manage your bus bookings with BusGo.',
+  generator: 'v0.app',
+  manifest: '/busgo/manifest.webmanifest',
+  icons: {
+    icon: [
+      {
+        url: '/busgo/icon-light-32x32.png',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/busgo/icon-dark-32x32.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/busgo/icon.svg',
+        type: 'image/svg+xml',
+      },
+    ],
+    apple: '/busgo/apple-icon.png',
+  },
+};
+
+export const viewport: Viewport = {
+  colorScheme: 'light',
+  themeColor: '#2563eb',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${montserrat.variable} ${notoSans.variable} ${roboto.variable}`}
+    >
+      <body className="antialiased">
+        <PwaRegister />
+        {children}
+        {process.env.NODE_ENV === 'production' && <Analytics />}
+      </body>
+    </html>
+  );
+}

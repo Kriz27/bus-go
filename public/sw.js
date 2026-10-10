@@ -9,7 +9,18 @@ const APP_SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)),
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const response = await fetch(APP_ROOT);
+      const html = await response.clone().text();
+      const pageAssets = Array.from(
+        html.matchAll(/(?:src|href)="([^\"]+)"/g),
+        (match) => match[1],
+      ).filter((path) => path.startsWith(APP_ROOT));
+
+      await cache.put(APP_ROOT, response);
+      await cache.addAll([...new Set([...APP_SHELL, ...pageAssets])]);
+    })(),
   );
   self.skipWaiting();
 });

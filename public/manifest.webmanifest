@@ -1,17 +1,17 @@
 {
-  "id": "/busgo/",
+  "id": "/bus-go/",
   "name": "BusGo - Bus Tickets",
   "short_name": "BusGo",
   "description": "Plan journeys and manage your bus bookings offline.",
-  "start_url": "/busgo/",
-  "scope": "/busgo/",
+  "start_url": "/bus-go/",
+  "scope": "/bus-go/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/busgo/icon.svg",
+      "src": "/bus-go/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

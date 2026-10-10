@@ -15,9 +15,9 @@ import {
 import { formatShortDate, type Ticket as TicketData } from '@/lib/tickets';
 
 const planner = [
-  { label: 'Reserved', src: '/busgo/images/reserved.png' },
-  { label: 'Unreserved', src: '/busgo/images/unreserved.png' },
-  { label: 'Platform', src: '/busgo/images/busstop.png' },
+  { label: 'Reserved', src: '/bus-go/images/reserved.png' },
+  { label: 'Unreserved', src: '/bus-go/images/unreserved.png' },
+  { label: 'Platform', src: '/bus-go/images/busstop.png' },
 ];
 
 type Offering = {
@@ -42,19 +42,19 @@ const offerings: Offering[] = [
   },
   {
     label: 'Seat Layout',
-    icon: { src: '/busgo/images/seat-layout.png' },
+    icon: { src: '/bus-go/images/seat-layout.png' },
     color: 'text-blue-700',
     tile: 'bg-sky-100',
   },
   {
     label: 'Track Your Train',
-    icon: { src: '/busgo/images/track-bus.png' },
+    icon: { src: '/bus-go/images/track-bus.png' },
     color: 'text-amber-400',
     tile: 'bg-orange-50',
   },
   {
     label: 'Order Food',
-    icon: { src: '/busgo/images/order-food.svg' },
+    icon: { src: '/bus-go/images/order-food.svg' },
     color: 'text-indigo-700',
     tile: 'bg-indigo-100',
   },
@@ -72,7 +72,7 @@ const offerings: Offering[] = [
   },
   {
     label: 'Go To Offers',
-    icon: { src: '/busgo/images/waves.png' },
+    icon: { src: '/bus-go/images/waves.png' },
     color: 'text-white',
     tile: 'bg-gray-500',
   },
@@ -116,7 +116,7 @@ export function HomeScreen({
         </span>
         <h1 className="relative h-9 w-32">
           <Image
-            src="/busgo/images/logo.jpg"
+            src="/bus-go/images/logo.jpg"
             alt="Your App Name"
             fill
             sizes="128px"

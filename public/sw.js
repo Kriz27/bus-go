@@ -1,6 +1,6 @@
 const CACHE_PREFIX = 'busgo-';
 const CACHE_NAME = `${CACHE_PREFIX}static-v1`;
-const APP_ROOT = '/busgo/';
+const APP_ROOT = '/bus-go/';
 const APP_SHELL = [
   APP_ROOT,
   `${APP_ROOT}manifest.webmanifest`,

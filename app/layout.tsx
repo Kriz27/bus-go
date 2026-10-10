@@ -23,23 +23,23 @@ export const metadata: Metadata = {
   title: 'BusGo - Bus Tickets',
   description: 'Plan journeys and manage your bus bookings with BusGo.',
   generator: 'v0.app',
-  manifest: '/busgo/manifest.webmanifest',
+  manifest: '/bus-go/manifest.webmanifest',
   icons: {
     icon: [
       {
-        url: '/busgo/icon-light-32x32.png',
+        url: '/bus-go/icon-light-32x32.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/busgo/icon-dark-32x32.png',
+        url: '/bus-go/icon-dark-32x32.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/busgo/icon.svg',
+        url: '/bus-go/icon.svg',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/busgo/apple-icon.png',
+    apple: '/bus-go/apple-icon.png',
   },
 };
 

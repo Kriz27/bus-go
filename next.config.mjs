@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/busgo',
+  basePath: '/bus-go',
   trailingSlash: true,
   typescript: {
     ignoreBuildErrors: true,

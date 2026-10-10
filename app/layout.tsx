@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { Montserrat, Noto_Sans, Roboto } from 'next/font/google';
 import { PwaRegister } from '@/components/pwa-register';
@@ -61,7 +60,6 @@ export default function RootLayout({
       <body className="antialiased">
         <PwaRegister />
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   );

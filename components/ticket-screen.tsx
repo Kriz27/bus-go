@@ -49,6 +49,8 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
     return () => clearInterval(id);
   }, []);
 
+  const previous =
+    remaining < PREVIEW_SECONDS && remaining > 0 ? remaining + 1 : remaining;
   const progress = ((PREVIEW_SECONDS - remaining) / PREVIEW_SECONDS) * 100;
   const validTill = new Date(ticket.bookedAt.getTime() + 3 * 60 * 60 * 1000);
   const passengers = `${ticket.adults} Adult, ${ticket.children} Child`;
@@ -126,11 +128,17 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
                   remaining % 60,
                 )} seconds`}
               >
-                <RollingDigits value={pad2(Math.floor(remaining / 60))} />
+                <RollingDigits
+                  value={pad2(Math.floor(remaining / 60))}
+                  previous={pad2(Math.floor(previous / 60))}
+                />
                 <span className="text-center" aria-hidden>
                   :
                 </span>
-                <RollingDigits value={pad2(remaining % 60)} />
+                <RollingDigits
+                  value={pad2(remaining % 60)}
+                  previous={pad2(previous % 60)}
+                />
               </p>
               <p className="mt-1 text-gray-400 text-[13px] mb-1">
                 Ticket Booking Date &amp; Time
@@ -235,10 +243,33 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
   );
 }
 
-function RollingDigits({ value }: { value: string }) {
+function RollingDigits({
+  value,
+  previous,
+}: {
+  value: string;
+  previous: string;
+}) {
+  const changed = value !== previous;
   return (
-    <span className="block w-[2.5ch] text-center tabular-nums" aria-hidden>
-      {value}
+    <span
+      className="relative block h-[1.05em] w-[2.5ch] overflow-hidden text-center"
+      aria-hidden
+    >
+      <span
+        key={`in-${value}`}
+        className={`block ${changed ? 'animate-roll-in' : ''}`}
+      >
+        {value}
+      </span>
+      {changed && (
+        <span
+          key={`out-${previous}`}
+          className="absolute inset-0 block animate-roll-out"
+        >
+          {previous}
+        </span>
+      )}
     </span>
   );
 }
@@ -381,7 +412,7 @@ function SideBrand({
   return (
     <div className="relative flex w-7 shrink-0 items-center justify-center">
       <span
-        className={`absolute inset-y-0 w-px ${
+        className={`absolute inset-y-0 w-[2px] ${
           side === 'left' ? 'right-0' : 'left-0'
         }`}
         style={{

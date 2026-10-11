@@ -230,6 +230,9 @@ export function HomeScreen({
   );
 }
 
+const TICKET_NOTCH_MASK =
+  'radial-gradient(circle 10px at calc(100% - 4.75rem) 0, transparent 9.5px, #000 10px), radial-gradient(circle 10px at calc(100% - 4.75rem) 100%, transparent 9.5px, #000 10px)';
+
 function UpcomingJourneyCard({
   ticket,
   onView,
@@ -238,47 +241,38 @@ function UpcomingJourneyCard({
   onView: () => void;
 }) {
   return (
-    <div className="mx-auto mt-4 w-[92%]">
-      <article className="relative overflow-hidden rounded-xl border border-amber-300 bg-white text-slate-800 shadow-sm">
-        <div className="h-2" style={{ backgroundColor: ticket.color }} />
-        <div className="px-4 pb-3 pt-2.5">
-          <p className="font-sans text-xs text-slate-500">
-            {formatShortDate(ticket.bookedAt)}
-          </p>
-          <div className="mt-3 flex items-center justify-between gap-3 text-[13px] font-semibold uppercase">
-            <span className="truncate">{ticket.from.name}</span>
-            <span className="shrink-0 font-sans text-[11px] font-normal text-slate-400">
-              {ticket.distanceKm} km
-            </span>
-            <span className="truncate text-right">{ticket.to.name}</span>
-          </div>
+    <div className="mx-auto mt-4 w-[88%] drop-shadow-[0_6px_10px_rgba(88,60,200,0.25)]">
+      <article
+        className="rounded-2xl bg-[linear-gradient(100deg,#3b45dc_0%,#6a4be6_40%,#b46ae2_75%,#efa3e8_100%)] px-3 pb-4 pt-5 text-white"
+        style={{
+          mask: TICKET_NOTCH_MASK,
+          WebkitMask: TICKET_NOTCH_MASK,
+          maskComposite: 'intersect',
+          WebkitMaskComposite: 'source-in',
+        }}
+      >
+        <p className="text-xs">{formatShortDate(ticket.bookedAt)}</p>
+        <div className="mb-2.5 mt-3 h-px bg-white/60" />
+        <div className="flex justify-between gap-3 text-[11px] uppercase">
+          <span className="truncate">{ticket.from.name}</span>
+          <span className="truncate text-right">{ticket.to.name}</span>
         </div>
-        <div className="relative border-t border-dashed border-amber-200">
-          <span
-            className="absolute -left-3 -top-3 size-6 rounded-full border border-amber-200 bg-white [clip-path:inset(0_0_0_50%)]"
-            aria-hidden
-          />
-          <span
-            className="absolute -right-3 -top-3 size-6 rounded-full border border-amber-200 bg-white [clip-path:inset(0_50%_0_0)]"
-            aria-hidden
-          />
-        </div>
-        <div className="flex items-center gap-2 px-3 py-2.5">
-          <span className="mr-auto text-xs font-semibold text-green-700">
+        <div className="mb-2.5 mt-2.5 h-px bg-white/60" />
+        <div className="flex items-center gap-1 whitespace-nowrap">
+          <span className="mr-auto text-[13px] font-semibold text-green-300">
             Unreserved
           </span>
-          <span className="whitespace-nowrap text-xs font-semibold text-blue-700">
+          <span className="rounded-full border-[1.5px] border-white bg-[#b952d9] px-2 py-0.5 text-[10px]">
             Book Again
           </span>
           <button
             type="button"
             onClick={onView}
-            className="whitespace-nowrap rounded-md px-2 py-1 text-xs font-semibold text-blue-700 transition-colors hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-blue-600"
+            className="rounded-full border-[1.5px] border-white bg-[#3a2b9e] px-2.5 py-0.5 text-[10px] transition-colors hover:bg-[#2d217d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             View Details
           </button>
         </div>
-        <div className="h-2" style={{ backgroundColor: ticket.color }} />
       </article>
     </div>
   );

@@ -1,76 +1,91 @@
-'use client'
+'use client';
 
-import { useState, type KeyboardEvent } from 'react'
-import { MapPin, Plus, Search, X } from 'lucide-react'
-import { normalizeCode, normalizeName, searchStations, type Station } from '@/lib/stations'
+import { useState, type KeyboardEvent } from 'react';
+import { MapPin, Plus, Search, X } from 'lucide-react';
+import {
+  normalizeCode,
+  normalizeName,
+  searchStations,
+  type Station,
+} from '@/lib/stations';
 
 type BaseProps = {
-  id: string
-  label: string
-  placeholder: string
-  stations: Station[]
-  onAddStation: (station: Station) => void
-}
+  id: string;
+  label: string;
+  placeholder: string;
+  stations: Station[];
+  onAddStation: (station: Station) => void;
+};
 
 type SingleProps = BaseProps & {
-  multiple?: false
-  value: Station | null
-  onChange: (station: Station | null) => void
-}
+  multiple?: false;
+  value: Station | null;
+  onChange: (station: Station | null) => void;
+};
 
 type MultiProps = BaseProps & {
-  multiple: true
-  value: Station[]
-  onChange: (stations: Station[]) => void
-}
+  multiple: true;
+  value: Station[];
+  onChange: (stations: Station[]) => void;
+};
 
 export function StationPicker(props: SingleProps | MultiProps) {
-  const { id, label, placeholder, stations, onAddStation } = props
-  const [query, setQuery] = useState('')
-  const [open, setOpen] = useState(false)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [adding, setAdding] = useState(false)
+  const { id, label, placeholder, stations, onAddStation } = props;
+  const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [adding, setAdding] = useState(false);
 
-  const selected: Station[] = props.multiple ? props.value : props.value ? [props.value] : []
-  const results = searchStations(stations, query, selected)
-  const listId = `${id}-list`
+  const selected: Station[] = props.multiple
+    ? props.value
+    : props.value
+      ? [props.value]
+      : [];
+  const results = searchStations(stations, query, selected);
+  const listId = `${id}-list`;
 
   const select = (station: Station) => {
-    if (props.multiple) props.onChange([...props.value, station])
-    else props.onChange(station)
-    setQuery('')
-    setOpen(false)
-    setActiveIndex(0)
-  }
+    if (props.multiple) props.onChange([...props.value, station]);
+    else props.onChange(station);
+    setQuery('');
+    setOpen(false);
+    setActiveIndex(0);
+  };
 
   const remove = (station: Station) => {
-    if (props.multiple) props.onChange(props.value.filter((s) => s !== station))
-    else props.onChange(null)
-  }
+    if (props.multiple)
+      props.onChange(props.value.filter((s) => s !== station));
+    else props.onChange(null);
+  };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.nativeEvent.isComposing || e.keyCode === 229) return
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return;
     if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setOpen(true)
-      setActiveIndex((i) => Math.min(i + 1, Math.max(results.length - 1, 0)))
+      e.preventDefault();
+      setOpen(true);
+      setActiveIndex((i) => Math.min(i + 1, Math.max(results.length - 1, 0)));
     } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setActiveIndex((i) => Math.max(i - 1, 0))
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, 0));
     } else if (e.key === 'Enter') {
       if (open && results[activeIndex]) {
-        e.preventDefault()
-        select(results[activeIndex])
+        e.preventDefault();
+        select(results[activeIndex]);
       }
     } else if (e.key === 'Escape') {
-      setOpen(false)
-    } else if (e.key === 'Backspace' && !query && props.multiple && props.value.length > 0) {
-      remove(props.value[props.value.length - 1])
+      setOpen(false);
+    } else if (
+      e.key === 'Backspace' &&
+      !query &&
+      props.multiple &&
+      props.value.length > 0
+    ) {
+      remove(props.value[props.value.length - 1]);
     }
-  }
+  };
 
-  const showInput = props.multiple || !props.value
-  const showList = open && query.trim().length > 0
+  const showInput = props.multiple || !props.value;
+  const showList = open && query.trim().length > 0;
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -87,7 +102,8 @@ export function StationPicker(props: SingleProps | MultiProps) {
             }`}
           >
             <span className="truncate">
-              {station.name} <span className="font-semibold">{station.code}</span>
+              {station.name}{' '}
+              <span className="font-semibold">{station.code}</span>
             </span>
             <button
               type="button"
@@ -112,9 +128,9 @@ export function StationPicker(props: SingleProps | MultiProps) {
               autoComplete="off"
               value={query}
               onChange={(e) => {
-                setQuery(e.target.value)
-                setOpen(true)
-                setActiveIndex(0)
+                setQuery(e.target.value);
+                setOpen(true);
+                setActiveIndex(0);
               }}
               onFocus={() => setOpen(true)}
               onBlur={() => setOpen(false)}
@@ -145,18 +161,24 @@ export function StationPicker(props: SingleProps | MultiProps) {
               }`}
             >
               <MapPin className="size-4 shrink-0 text-slate-400" aria-hidden />
-              <span className="flex-1 truncate text-slate-800">{station.name}</span>
+              <span className="flex-1 truncate text-slate-800">
+                {station.name}
+              </span>
               <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-xs font-semibold text-slate-700">
                 {station.code}
               </span>
             </li>
           ))}
-          {results.length === 0 && <li className="px-3 py-2 text-sm text-slate-500">No matching station.</li>}
+          {results.length === 0 && (
+            <li className="px-3 py-2 text-sm text-slate-500">
+              No matching station.
+            </li>
+          )}
           <li
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => {
-              setAdding(true)
-              setOpen(false)
+              setAdding(true);
+              setOpen(false);
             }}
             className="flex cursor-pointer items-center gap-2 border-t border-slate-100 px-3 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50"
           >
@@ -184,14 +206,14 @@ export function StationPicker(props: SingleProps | MultiProps) {
           stations={stations}
           onCancel={() => setAdding(false)}
           onAdd={(station) => {
-            onAddStation(station)
-            select(station)
-            setAdding(false)
+            onAddStation(station);
+            select(station);
+            setAdding(false);
           }}
         />
       )}
     </div>
-  )
+  );
 }
 
 function AddStationForm({
@@ -201,27 +223,30 @@ function AddStationForm({
   onCancel,
   onAdd,
 }: {
-  idPrefix: string
-  initialName: string
-  stations: Station[]
-  onCancel: () => void
-  onAdd: (station: Station) => void
+  idPrefix: string;
+  initialName: string;
+  stations: Station[];
+  onCancel: () => void;
+  onAdd: (station: Station) => void;
 }) {
-  const [name, setName] = useState(initialName)
-  const [code, setCode] = useState('')
-  const [error, setError] = useState('')
+  const [name, setName] = useState(initialName);
+  const [code, setCode] = useState('');
+  const [error, setError] = useState('');
 
   const submit = () => {
-    const station = { name: normalizeName(name), code: normalizeCode(code) }
-    if (!station.name) return setError('Enter a station name.')
-    if (!station.code) return setError('Enter a station code.')
-    if (stations.some((s) => s.code === station.code)) return setError(`Code ${station.code} already exists.`)
-    onAdd(station)
-  }
+    const station = { name: normalizeName(name), code: normalizeCode(code) };
+    if (!station.name) return setError('Enter a station name.');
+    if (!station.code) return setError('Enter a station code.');
+    if (stations.some((s) => s.code === station.code))
+      return setError(`Code ${station.code} already exists.`);
+    onAdd(station);
+  };
 
   return (
     <div className="flex flex-col gap-2 rounded-xl border border-dashed border-blue-300 bg-blue-50/50 p-3">
-      <p className="text-xs font-semibold uppercase tracking-wide text-blue-900">New station</p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-blue-900">
+        New station
+      </p>
       <div className="grid grid-cols-[1fr_6rem] gap-2">
         <input
           aria-label="New station name"
@@ -229,7 +254,7 @@ function AddStationForm({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Station name"
-          className="min-w-0 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-blue-600"
+          className="min-w-0 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-blue-600"
         />
         <input
           aria-label="New station code"
@@ -238,7 +263,7 @@ function AddStationForm({
           onChange={(e) => setCode(e.target.value.toUpperCase())}
           placeholder="Code"
           maxLength={6}
-          className="min-w-0 rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm uppercase outline-none focus:border-blue-600"
+          className="min-w-0 rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm uppercase text-slate-900 outline-none placeholder:text-slate-400 focus:border-blue-600"
         />
       </div>
       {error && (
@@ -247,7 +272,11 @@ function AddStationForm({
         </p>
       )}
       <div className="flex justify-end gap-2">
-        <button type="button" onClick={onCancel} className="rounded-lg px-3 py-1.5 text-sm text-slate-600">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-lg px-3 py-1.5 text-sm text-slate-600"
+        >
           Cancel
         </button>
         <button
@@ -259,5 +288,5 @@ function AddStationForm({
         </button>
       </div>
     </div>
-  )
+  );
 }

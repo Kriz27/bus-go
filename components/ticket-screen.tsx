@@ -27,7 +27,7 @@ const diamonds = Array.from(
     const cy = Math.floor(i / DIAMOND_COLUMNS) * DIAMOND_SIZE;
     const h = DIAMOND_SIZE / 2;
     return `${cx},${cy - h} ${cx + h},${cy} ${cx},${cy + h} ${cx - h},${cy}`;
-  }
+  },
 );
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
@@ -44,7 +44,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
   useEffect(() => {
     const id = setInterval(
       () => setRemaining((s) => (s > 0 ? s - 1 : 0)),
-      1000
+      1000,
     );
     return () => clearInterval(id);
   }, []);
@@ -123,16 +123,18 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
                 Dynamic preview will close in
               </p>
               <p
-                className="flex text-[2.6rem] font-bold leading-none tabular-nums text-[#ff2a1a]"
+                className="grid grid-cols-[2.5ch_0.55ch_2.5ch] justify-center text-[2.6rem] font-bold leading-none tabular-nums text-[#ff2a1a]"
                 aria-label={`${pad2(Math.floor(remaining / 60))} minutes ${pad2(
-                  remaining % 60
+                  remaining % 60,
                 )} seconds`}
               >
                 <RollingDigits
                   value={pad2(Math.floor(remaining / 60))}
                   previous={pad2(Math.floor(previous / 60))}
                 />
-                <span aria-hidden>:</span>
+                <span className="text-center" aria-hidden>
+                  :
+                </span>
                 <RollingDigits
                   value={pad2(remaining % 60)}
                   previous={pad2(previous % 60)}
@@ -250,7 +252,10 @@ function RollingDigits({
 }) {
   const changed = value !== previous;
   return (
-    <span className="relative inline-block overflow-hidden" aria-hidden>
+    <span
+      className="relative block h-[1.05em] w-[2.5ch] overflow-hidden text-center"
+      aria-hidden
+    >
       <span
         key={`in-${value}`}
         className={`block ${changed ? 'animate-roll-in' : ''}`}
@@ -407,9 +412,13 @@ function SideBrand({
   return (
     <div className="relative flex w-7 shrink-0 items-center justify-center">
       <span
-        className={`absolute inset-y-0 border-dashed border-white/80 ${
-          side === 'left' ? 'right-0 border-r-2' : 'left-0 border-l-2'
+        className={`absolute inset-y-0 w-px ${
+          side === 'left' ? 'right-0' : 'left-0'
         }`}
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(to bottom, rgba(255,255,255,.8) 0 4px, transparent 4px 8px)',
+        }}
         aria-hidden
       />
       <span

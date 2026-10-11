@@ -68,7 +68,7 @@ export function ColorWheel({ value, onChange }: Props) {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="relative size-56 shrink-0">
+      <div className="relative size-48 shrink-0">
         <canvas
           ref={canvasRef}
           width={SIZE}

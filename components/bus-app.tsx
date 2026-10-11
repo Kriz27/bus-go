@@ -5,6 +5,7 @@ import { HomeScreen } from '@/components/home-screen';
 import { BookingsScreen } from '@/components/bookings-screen';
 import { TicketScreen } from '@/components/ticket-screen';
 import { ProfileDialog } from '@/components/profile-dialog';
+import { StationsDialog } from '@/components/stations-dialog';
 import {
   createTicket,
   defaultProfile,
@@ -32,6 +33,7 @@ export function BusApp() {
   const [activeTicket, setActiveTicket] = useState<Ticket | null>(null);
   const [profile, setProfile] = useState<Profile>(defaultProfile);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [stationManagerOpen, setStationManagerOpen] = useState(false);
   const [stations, setStations] = useState<Station[]>(DEFAULT_STATIONS);
   const [storageReady, setStorageReady] = useState(false);
 
@@ -94,6 +96,21 @@ export function BusApp() {
       ),
     );
 
+  const handleUpdateStation = (previousCode: string, station: Station) => {
+    const updateStation = (current: Station) =>
+      current.code === previousCode ? station : current;
+
+    setStations((prev) => prev.map(updateStation));
+    setTickets((prev) =>
+      prev.map((ticket) => ({
+        ...ticket,
+        from: updateStation(ticket.from),
+        to: updateStation(ticket.to),
+        via: ticket.via.map(updateStation),
+      })),
+    );
+  };
+
   const handleGenerate = (input: TicketInput) => {
     const ticket = createTicket(input);
     setTickets((prev) => [ticket, ...prev]);
@@ -116,6 +133,7 @@ export function BusApp() {
             onViewTicket={openTicket}
             onNavigateBookings={() => setScreen('bookings')}
             onOpenProfile={() => setProfileOpen(true)}
+            onManageStations={() => setStationManagerOpen(true)}
           />
         )}
         {screen === 'bookings' && (
@@ -148,6 +166,14 @@ export function BusApp() {
               setProfile(next);
               setProfileOpen(false);
             }}
+          />
+        )}
+        {stationManagerOpen && (
+          <StationsDialog
+            stations={stations}
+            onAdd={(station) => setStations((prev) => [...prev, station])}
+            onUpdate={handleUpdateStation}
+            onClose={() => setStationManagerOpen(false)}
           />
         )}
       </div>

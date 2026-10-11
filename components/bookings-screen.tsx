@@ -119,7 +119,7 @@ export function BookingsScreen({
       </main>
 
       <nav
-        className="grid grid-cols-4 rounded-t-2xl border-t border-slate-200 bg-slate-50 pb-4 pt-3"
+        className="grid grid-cols-4 gap-1 rounded-t-xl border-t border-sky-100 bg-sky-100/80 px-2 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-2"
         aria-label="Booking filters"
       >
         {TABS.map((label) => {
@@ -130,16 +130,16 @@ export function BookingsScreen({
               type="button"
               onClick={() => setTab(label)}
               aria-pressed={active}
-              className="flex flex-col items-center gap-1"
+              className={`flex min-w-0 flex-col items-center justify-center gap-1 rounded-lg py-2 transition-colors ${
+                active
+                  ? 'bg-white text-blue-700 shadow-sm'
+                  : 'text-slate-500 hover:bg-white/60'
+              }`}
             >
               <TicketIcon
-                className={`size-5 ${active ? 'fill-amber-300 text-slate-800' : 'text-slate-600'}`}
+                className={`size-6 ${active ? 'fill-amber-300 text-slate-800' : 'text-slate-500'}`}
               />
-              <span
-                className={`text-sm ${active ? 'text-slate-400' : 'text-slate-600'}`}
-              >
-                {label}
-              </span>
+              <span className="truncate text-[11px] font-medium">{label}</span>
             </button>
           );
         })}
@@ -178,8 +178,8 @@ function BookingCard({
   onDelete?: () => void;
 }) {
   return (
-    <article className="relative rounded-2xl border border-slate-300 bg-white">
-      <div className="px-4 pb-4 pt-3">
+    <article className="relative rounded-xl border border-[#e5b34a] bg-white shadow-sm">
+      <div className="px-4 pb-5 pt-4">
         <div className="flex items-center justify-between gap-2">
           <span className="rounded-md bg-purple-50 px-2.5 py-1 text-sm text-purple-500">
             Unreserved
@@ -230,13 +230,13 @@ function BookingCard({
         </div>
       </div>
 
-      <div className="relative border-t border-dashed border-slate-300">
+      <div className="relative border-t border-dashed border-amber-300">
         <span
-          className="absolute -left-3 -top-3 size-6 rounded-full border border-slate-300 bg-white [clip-path:inset(0_0_0_50%)]"
+          className="absolute -left-3 -top-3 size-6 rounded-full border border-amber-300 bg-white [clip-path:inset(0_0_0_50%)]"
           aria-hidden
         />
         <span
-          className="absolute -right-3 -top-3 size-6 rounded-full border border-slate-300 bg-white [clip-path:inset(0_50%_0_0)]"
+          className="absolute -right-3 -top-3 size-6 rounded-full border border-amber-300 bg-white [clip-path:inset(0_50%_0_0)]"
           aria-hidden
         />
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HomeScreen } from '@/components/home-screen';
 import { BookingsScreen } from '@/components/bookings-screen';
 import { TicketScreen } from '@/components/ticket-screen';
@@ -18,6 +18,8 @@ import {
 import { DEFAULT_STATIONS, type Station } from '@/lib/stations';
 
 type Screen = 'home' | 'bookings' | 'ticket';
+type Overlay = 'profile' | 'stations' | 'generator' | null;
+type AppView = { screen: Screen; overlay: Overlay };
 type StoredTicket = Omit<Ticket, 'bookedAt'> & { bookedAt: string };
 type StoredState = {
   tickets: StoredTicket[];
@@ -26,6 +28,7 @@ type StoredState = {
 };
 
 const STORAGE_KEY = 'busgo-app-state';
+const HOME_VIEW: AppView = { screen: 'home', overlay: null };
 
 export function BusApp() {
   const [screen, setScreen] = useState<Screen>('home');
@@ -34,8 +37,56 @@ export function BusApp() {
   const [profile, setProfile] = useState<Profile>(defaultProfile);
   const [profileOpen, setProfileOpen] = useState(false);
   const [stationManagerOpen, setStationManagerOpen] = useState(false);
+  const [generatorOpen, setGeneratorOpen] = useState(false);
   const [stations, setStations] = useState<Station[]>(DEFAULT_STATIONS);
   const [storageReady, setStorageReady] = useState(false);
+  const viewHistory = useRef<AppView[]>([HOME_VIEW]);
+
+  const applyView = (view: AppView) => {
+    setScreen(view.screen);
+    setProfileOpen(view.overlay === 'profile');
+    setStationManagerOpen(view.overlay === 'stations');
+    setGeneratorOpen(view.overlay === 'generator');
+  };
+
+  const pushView = (view: AppView) => {
+    window.history.pushState({ busGoView: true }, '');
+    viewHistory.current.push(view);
+    applyView(view);
+  };
+
+  const replaceView = (view: AppView) => {
+    window.history.replaceState({ busGoView: true }, '');
+    viewHistory.current[viewHistory.current.length - 1] = view;
+    applyView(view);
+  };
+
+  const goBack = () => {
+    if (viewHistory.current.length > 1) window.history.back();
+  };
+
+  const navigateToScreen = (nextScreen: Screen) =>
+    pushView({ screen: nextScreen, overlay: null });
+
+  const openOverlay = (overlay: Exclude<Overlay, null>) =>
+    pushView({ screen, overlay });
+
+  useEffect(() => {
+    window.history.replaceState(
+      { ...window.history.state, busGoView: true },
+      '',
+    );
+
+    const handlePopState = () => {
+      if (viewHistory.current.length > 1) viewHistory.current.pop();
+      applyView(
+        viewHistory.current[viewHistory.current.length - 1] ?? HOME_VIEW,
+      );
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   useEffect(() => {
     try {
@@ -115,12 +166,12 @@ export function BusApp() {
     const ticket = createTicket(input);
     setTickets((prev) => [ticket, ...prev]);
     setActiveTicket(ticket);
-    setScreen('ticket');
+    replaceView({ screen: 'ticket', overlay: null });
   };
 
   const openTicket = (ticket: Ticket) => {
     setActiveTicket(ticket);
-    setScreen('ticket');
+    navigateToScreen('ticket');
   };
 
   return (
@@ -131,9 +182,9 @@ export function BusApp() {
             profileName={profile.name}
             upcomingTicket={tickets[0] ?? null}
             onViewTicket={openTicket}
-            onNavigateBookings={() => setScreen('bookings')}
-            onOpenProfile={() => setProfileOpen(true)}
-            onManageStations={() => setStationManagerOpen(true)}
+            onNavigateBookings={() => navigateToScreen('bookings')}
+            onOpenProfile={() => openOverlay('profile')}
+            onManageStations={() => openOverlay('stations')}
           />
         )}
         {screen === 'bookings' && (
@@ -143,8 +194,11 @@ export function BusApp() {
             onAddStation={(station) =>
               setStations((prev) => [...prev, station])
             }
-            onBack={() => setScreen('home')}
+            onBack={goBack}
             onGenerate={handleGenerate}
+            generateOpen={generatorOpen}
+            onOpenGenerator={() => openOverlay('generator')}
+            onCloseGenerator={goBack}
             onUpdateTicket={handleUpdateTicket}
             onViewTicket={openTicket}
             onDeleteTicket={handleDelete}
@@ -155,16 +209,16 @@ export function BusApp() {
             key={activeTicket.id}
             ticket={activeTicket}
             profile={profile}
-            onBack={() => setScreen('bookings')}
+            onBack={goBack}
           />
         )}
         {profileOpen && (
           <ProfileDialog
             profile={profile}
-            onClose={() => setProfileOpen(false)}
+            onClose={goBack}
             onSave={(next) => {
               setProfile(next);
-              setProfileOpen(false);
+              goBack();
             }}
           />
         )}
@@ -173,7 +227,7 @@ export function BusApp() {
             stations={stations}
             onAdd={(station) => setStations((prev) => [...prev, station])}
             onUpdate={handleUpdateStation}
-            onClose={() => setStationManagerOpen(false)}
+            onClose={goBack}
           />
         )}
       </div>

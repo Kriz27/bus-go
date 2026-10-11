@@ -20,6 +20,9 @@ type Props = {
   onAddStation: (station: Station) => void;
   onBack: () => void;
   onGenerate: (input: TicketInput) => void;
+  generateOpen: boolean;
+  onOpenGenerator: () => void;
+  onCloseGenerator: () => void;
   onUpdateTicket: (id: string, input: TicketInput) => void;
   onViewTicket: (ticket: Ticket) => void;
   onDeleteTicket: (id: string) => void;
@@ -34,16 +37,22 @@ export function BookingsScreen({
   onAddStation,
   onBack,
   onGenerate,
+  generateOpen,
+  onOpenGenerator,
+  onCloseGenerator,
   onUpdateTicket,
   onViewTicket,
   onDeleteTicket,
 }: Props) {
-  const [open, setOpen] = useState(false);
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [tab, setTab] = useState<Tab>('Upcoming');
 
   const visible = tab === 'Upcoming' || tab === 'All' ? tickets : [];
   const canDelete = tab === 'All';
+  const closeGenerator = () => {
+    setEditingTicket(null);
+    onCloseGenerator();
+  };
 
   return (
     <div className="flex h-full flex-col font-display">
@@ -66,7 +75,7 @@ export function BookingsScreen({
             type="button"
             onClick={() => {
               setEditingTicket(null);
-              setOpen(true);
+              onOpenGenerator();
             }}
             className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3.5 font-semibold text-white shadow-md transition-colors hover:bg-blue-700"
           >
@@ -106,7 +115,7 @@ export function BookingsScreen({
                     canDelete
                       ? () => {
                           setEditingTicket(t);
-                          setOpen(true);
+                          onOpenGenerator();
                         }
                       : undefined
                   }
@@ -147,19 +156,21 @@ export function BookingsScreen({
 
       <GenerateTicketDialog
         key={editingTicket?.id ?? 'new-ticket'}
-        open={open}
+        open={generateOpen}
         initialTicket={editingTicket ?? undefined}
         stations={stations}
         onAddStation={onAddStation}
-        onOpenChange={setOpen}
+        onOpenChange={(nextOpen) => {
+          if (!nextOpen) closeGenerator();
+        }}
         onSubmit={(input) => {
-          setOpen(false);
           if (editingTicket) {
             onUpdateTicket(editingTicket.id, input);
+            closeGenerator();
           } else {
             onGenerate(input);
+            setEditingTicket(null);
           }
-          setEditingTicket(null);
         }}
       />
     </div>

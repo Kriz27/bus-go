@@ -119,7 +119,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
               ))}
             </svg>
             <SideBrand text="INDIAN RAILWAYS" side="left" />
-            <div className="relative flex min-w-0 flex-1 flex-col items-center px-1 py-1.5 text-center leading-tight">
+            <div className="relative flex min-w-0 flex-1 flex-col items-center px-1 py-3 text-center leading-tight">
               <p className="text-base font font-bold pb-1.5">
                 Dynamic preview will close in
               </p>
@@ -148,7 +148,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
                 {formatLongDateTime(ticket.bookedAt)}
               </p>
               <p className="text-[13px] pt-1">{ticket.serviceCode}</p>
-              <p className="text-[13px] pt-1 pb-2">
+              <p className="text-[13px] pt-1 pb-1">
                 Ticket is Non-Transferable
               </p>
             </div>

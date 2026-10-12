@@ -26,25 +26,17 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/bus-go/my_rail_login.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/bus-go/my_rail_login.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
         url: '/bus-go/railone.png',
-        type: 'image/svg+xml',
+        type: 'image/png',
       },
     ],
-    apple: '/bus-go/apple-icon.png',
+    apple: '/bus-go/railone.png',
   },
 };
 
 export const viewport: Viewport = {
   colorScheme: 'light',
-  themeColor: '#2563eb',
+  themeColor: '#0068ff',
   maximumScale: 1,
   userScalable: false,
 };

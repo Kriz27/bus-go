@@ -40,7 +40,13 @@ export function BusApp() {
   const [generatorOpen, setGeneratorOpen] = useState(false);
   const [stations, setStations] = useState<Station[]>(DEFAULT_STATIONS);
   const [storageReady, setStorageReady] = useState(false);
+  const [splashDelayElapsed, setSplashDelayElapsed] = useState(false);
   const viewHistory = useRef<AppView[]>([HOME_VIEW]);
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setSplashDelayElapsed(true), 650);
+    return () => window.clearTimeout(timeout);
+  }, []);
 
   const applyView = (view: AppView) => {
     setScreen(view.screen);
@@ -231,6 +237,19 @@ export function BusApp() {
           />
         )}
       </div>
+      {(!storageReady || !splashDelayElapsed) && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0068ff]"
+          role="status"
+          aria-label="Loading RailOne"
+        >
+          <img
+            src="/bus-go/my_rail_login.png"
+            alt=""
+            className="w-72 max-w-[80vw] object-contain brightness-0 invert"
+          />
+        </div>
+      )}
     </div>
   );
 }

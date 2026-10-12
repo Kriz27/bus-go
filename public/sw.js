@@ -1,10 +1,12 @@
 const CACHE_PREFIX = 'busgo-';
-const CACHE_NAME = `${CACHE_PREFIX}static-v1`;
+const CACHE_NAME = `${CACHE_PREFIX}static-v3`;
 const APP_ROOT = '/bus-go/';
 const APP_SHELL = [
   APP_ROOT,
   `${APP_ROOT}manifest.webmanifest`,
-  `${APP_ROOT}icon.svg`,
+  `${APP_ROOT}railone.png`,
+  `${APP_ROOT}railone-192.png`,
+  `${APP_ROOT}railone-512.png`,
 ];
 
 self.addEventListener('install', (event) => {

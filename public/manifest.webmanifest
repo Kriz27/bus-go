@@ -1,17 +1,17 @@
 {
   "id": "/bus-go/",
-  "name": "BusGo - Bus Tickets",
-  "short_name": "BusGo",
-  "description": "Plan journeys and manage your bus bookings offline.",
+  "name": "RailOne",
+  "short_name": "RailOne",
+  "description": "Plan journeys and manage your train bookings offline.",
   "start_url": "/bus-go/",
   "scope": "/bus-go/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#ffffff",
+  "background_color": "#2563eb",
   "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/bus-go/icon.svg",
+      "src": "/bus-go/my_rail_login.png",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

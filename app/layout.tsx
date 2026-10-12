@@ -19,22 +19,22 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'BusGo - Bus Tickets',
-  description: 'Plan journeys and manage your bus bookings with BusGo.',
+  title: 'RailOne',
+  description: 'Plan journeys and manage your train bookings with RailOne.',
   generator: 'v0.app',
   manifest: '/bus-go/manifest.webmanifest',
   icons: {
     icon: [
       {
-        url: '/bus-go/icon-light-32x32.png',
+        url: '/bus-go/my_rail_login.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/bus-go/icon-dark-32x32.png',
+        url: '/bus-go/my_rail_login.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/bus-go/icon.svg',
+        url: '/bus-go/railone.png',
         type: 'image/svg+xml',
       },
     ],

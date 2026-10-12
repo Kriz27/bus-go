@@ -92,7 +92,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
       <main className="flex-1 overflow-y-auto bg-gray-200">
         <p className="bg-white px-6 py-4 font-sans text-sm text-slate-400">{`Thank You ${profile.name}, Happy Journey !`}</p>
 
-        <article className="relative mx-3 mt-4 rounded-xl bg-white shadow-[0_1px_6px_rgba(15,23,42,0.08)]">
+        <article className="relative mx-5 mt-4 rounded-xl bg-white shadow-[0_1px_6px_rgba(15,23,42,0.08)]">
           <div
             className="h-3 rounded-t-xl"
             style={{ backgroundColor: ticket.color }}
@@ -102,6 +102,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
           <section
             aria-label="Dynamic ticket preview"
             className="relative flex bg-[#1c1c1c] text-white"
+            
           >
             <svg
               className="pointer-events-none absolute inset-0 size-full"
@@ -119,7 +120,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
             </svg>
             <SideBrand text="INDIAN RAILWAYS" side="left" />
             <div className="relative flex min-w-0 flex-1 flex-col items-center px-1 py-1.5 text-center leading-tight">
-              <p className="text-base font-semibold pb-1.5">
+              <p className="text-base font font-bold pb-1.5">
                 Dynamic preview will close in
               </p>
               <p
@@ -147,7 +148,9 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
                 {formatLongDateTime(ticket.bookedAt)}
               </p>
               <p className="text-[13px] pt-1">{ticket.serviceCode}</p>
-              <p className="text-[13px] pt-1">Ticket is Non-Transferable</p>
+              <p className="text-[13px] pt-1 pb-2">
+                Ticket is Non-Transferable
+              </p>
             </div>
             <SideBrand text="भारतीय रेल" side="right" hindi />
           </section>
@@ -292,10 +295,10 @@ function ActiveDetails({ ticket, via, passengers }: DetailsProps) {
     <div className="px-2.5 pt-2 font-roboto text-slate-800">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-[12px] font-medium tracking-wide text-slate-500">
+          <p className="text-[14px] font-medium tracking-wide text-slate-500">
             Journey Ticket
           </p>
-          <p className="text-[13px] text-base font-bold tracking-wide">
+          <p className="text-[15px] text-base font-bold tracking-wide">
             {ticket.id}
           </p>
         </div>
@@ -309,16 +312,16 @@ function ActiveDetails({ ticket, via, passengers }: DetailsProps) {
         {rows.map(([leftLabel, leftValue, rightLabel, rightValue]) => (
           <div key={leftLabel} className="flex justify-between gap-3">
             <div className="min-w-0">
-              <dt className="text-[12px] font-medium tracking-wide text-slate-500">
+              <dt className="text-[14px] font-medium tracking-wide text-slate-500">
                 {leftLabel}
               </dt>
-              <dd className="text-[13px] text-base font-bold">{leftValue}</dd>
+              <dd className="text-[16px] text-base font-bold">{leftValue}</dd>
             </div>
             <div className="min-w-0 text-right">
-              <dt className="text-[12px] font-medium tracking-wide text-slate-500">
+              <dt className="text-[14px] font-medium tracking-wide text-slate-500">
                 {rightLabel}
               </dt>
-              <dd className="text-[13px] text-base font-bold">{rightValue}</dd>
+              <dd className="text-[15px] text-base font-bold">{rightValue}</dd>
             </div>
           </div>
         ))}
@@ -400,6 +403,41 @@ function InactiveDetails({
   );
 }
 */
+/*function SideBrand({
+  text,
+  side,
+  hindi = false,
+}: {
+  text: string;
+  side: 'left' | 'right';
+  hindi?: boolean;
+}) {
+  return (
+    <div className="relative flex w-[31px] shrink-0 items-center justify-center">
+      <span
+        className={`absolute inset-y-0 w-[2px] ${
+          side === 'left' ? 'right-0' : 'left-0'
+        }`}
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(to bottom, rgba(255,255,255,.8) 0 8px, transparent 8px 10px)',
+        }}
+        aria-hidden
+      />
+      <span
+        className={`rotate-180 whitespace-nowrap font-bold text-gray-200 [writing-mode:vertical-rl] ${
+          hindi
+            ? `font-hindi text-[18px] leading-normal tracking-normal ${
+                side === 'right' ? 'ml-1' : 'mr-1.5'
+              }`
+            : 'text-[15px] leading-none tracking-wider'
+        }`}
+      >
+        {text}
+      </span>
+    </div>
+  );
+}*/
 function SideBrand({
   text,
   side,
@@ -410,24 +448,22 @@ function SideBrand({
   hindi?: boolean;
 }) {
   return (
-    <div className="relative flex w-7 shrink-0 items-center justify-center">
+    <div className="relative flex w-[31px] shrink-0 items-center justify-center">
       <span
         className={`absolute inset-y-0 w-[2px] ${
           side === 'left' ? 'right-0' : 'left-0'
         }`}
         style={{
           backgroundImage:
-            'repeating-linear-gradient(to bottom, rgba(255,255,255,.8) 0 4px, transparent 4px 8px)',
+            'repeating-linear-gradient(to bottom, rgba(255,255,255,.8) 0 8px, transparent 8px 10px)',
         }}
         aria-hidden
       />
       <span
-        className={`rotate-180 whitespace-nowrap font-bold text-gray-500 [writing-mode:vertical-rl] ${
+        className={`rotate-180 whitespace-nowrap font-bold text-gray-200 [writing-mode:vertical-rl] ${
           hindi
-            ? `font-hindi text-[17px] leading-normal tracking-normal ${
-                side === 'right' ? 'ml-1.5' : 'mr-1.5'
-              }`
-            : 'text-[13px] leading-none tracking-wider'
+            ? 'font-hindi text-[18px] leading-normal tracking-normal'
+            : 'text-[15px] leading-none tracking-wider'
         }`}
       >
         {text}

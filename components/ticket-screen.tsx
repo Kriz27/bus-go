@@ -101,8 +101,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
 
           <section
             aria-label="Dynamic ticket preview"
-            className="relative flex bg-[#1c1c1c] text-white"
-            
+            className="relative flex bg-[#0a0a0a] text-white"
           >
             <svg
               className="pointer-events-none absolute inset-0 size-full"
@@ -119,12 +118,12 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
               ))}
             </svg>
             <SideBrand text="INDIAN RAILWAYS" side="left" />
-            <div className="relative flex min-w-0 flex-1 flex-col items-center px-1 py-3 text-center leading-tight">
+            <div className="relative flex min-w-0 flex-1 flex-col items-center px-1 py-2.5 text-center leading-tight">
               <p className="text-base font font-bold pb-1.5">
                 Dynamic preview will close in
               </p>
               <p
-                className="grid grid-cols-[2.5ch_0.55ch_2.5ch] justify-center text-[2.6rem] font-bold leading-none tabular-nums text-[#ff2a1a]"
+                className="grid grid-cols-[2.35ch_0.5ch_2.35ch] justify-center text-[2.rem] font-bold leading-none tabular-nums text-[#ff2a1a]"
                 aria-label={`${pad2(Math.floor(remaining / 60))} minutes ${pad2(
                   remaining % 60,
                 )} seconds`}

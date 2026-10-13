@@ -123,7 +123,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
                 Dynamic preview will close in
               </p>
               <p
-                className="grid grid-cols-[2.35ch_0.5ch_2.35ch] justify-center text-[2.rem] font-bold leading-none tabular-nums text-[#ff2a1a]"
+                className="grid grid-cols-[2.35ch_0.5ch_2.35ch] justify-center text-[2.6rem] font-bold leading-none tabular-nums text-[#ff2a1a]"
                 aria-label={`${pad2(Math.floor(remaining / 60))} minutes ${pad2(
                   remaining % 60,
                 )} seconds`}
@@ -143,7 +143,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
               <p className="mt-1 text-gray-400 text-[13px] mb-1">
                 Ticket Booking Date &amp; Time
               </p>
-              <p className="text-[28px] font-semibold text-[#fc870a]">
+              <p className="text-[28px] font-semibold text-[#f79f2a]">
                 {formatLongDateTime(ticket.bookedAt)}
               </p>
               <p className="text-[13px] pt-1">{ticket.serviceCode}</p>
@@ -449,7 +449,7 @@ function SideBrand({
   return (
     <div className="relative flex w-[31px] shrink-0 items-center justify-center">
       <span
-        className={`absolute inset-y-0 w-[2px] ${
+        className={`absolute inset-y-0 w-[1px] ${
           side === 'left' ? 'right-0' : 'left-0'
         }`}
         style={{

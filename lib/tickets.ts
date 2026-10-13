@@ -8,8 +8,8 @@ export type Profile = {
 };
 
 export const defaultProfile: Profile = {
-  name: 'Gokul Kumar P',
-  phone: '8838749614',
+  name: 'YOUR Name',
+  phone: '88XXXXXXXX',
 };
 
 export type Ticket = {

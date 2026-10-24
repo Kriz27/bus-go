@@ -113,7 +113,7 @@ export function TicketScreen({ ticket, profile, onBack }: Props) {
                 <polygon
                   key={points}
                   points={points}
-                  fill="rgba(255,255,255,0.03)"
+                  fill="rgba(255,255,255,0.05)"
                 />
               ))}
             </svg>
